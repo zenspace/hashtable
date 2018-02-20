@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Array {
+public class Array<K,V> {
 
     private LinkedList<Node> array[];
     private int size = 100;
@@ -24,7 +24,7 @@ public class Array {
      */
     public Array(int size) {
         this.size = size;
-        System.out.println("add index : " );
+        System.out.println("add index : " + size);
        array = new LinkedList[size];
     }
 
@@ -38,16 +38,21 @@ public class Array {
         return true;
     }
 
-    public boolean add(int index, String key, String value) {
+    public boolean add(int index, K key, V value) {
         if(index >= size) {
             return false;
         }
         Node node = new Node(key, value);
+         if(key.toString().equals("5070")) {
+            System.out.println("add key 5070 index: " + index);
+        }
 
         if(array[index] == null) {
             array[index] = new LinkedList<>();;
-            array[index].add(node);
+
         }
+
+        array[index].add(node);
         return true;
     }
 
@@ -61,27 +66,20 @@ public class Array {
     }
 
 
-    public String getValue(int index, String key) {
+    public V getValue(int index, K key) {
 
-//      if(isAvailableofIndex(index) == true) {
-//            return array[index].getKey();
-//        }
+        int size = array[index].size();
 
-       int size = array[index].size();
+        synchronized (array[index]) {
+            for (int i = 0; i < size; i++) {
 
-         synchronized(array[index]) {
-             for (int i = 0; i < size; i++) {
+                if (array[index].get(i).getKey().equals(key) == true) {
+                    return (V) array[index].get(i).getValue();
 
-//            System.out.println("getValue : "+ iterator.next().getKey());
-//            if(iterator.next().getKey().equals(key) == true) {
-//                return iterator.next().getValue();
-                 return array[index].get(i).getValue();
-//            }
+                }
+            }
 
-             }
-         }
-
-        return null;
+            return null;
+        }
     }
-
 }

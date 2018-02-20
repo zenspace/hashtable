@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HashTable {
+public class HashTable<K,V> {
 
     private Array table;     // 해쉬 테이블
     private int size = 100;               // 해쉬 테이블 크기
@@ -12,7 +12,6 @@ public class HashTable {
      * 생성자에서 해쉬테이블 디폴트 크기를 100으로 설정 한다.
      */
     public HashTable(){
-        System.out.println("default : " + size);
         this.table = new Array(size);
     }
 
@@ -21,8 +20,7 @@ public class HashTable {
      * @param size 테이블 크기
      */
     public HashTable(int size){
-        this.size = size;
-        System.out.println("opt size : " + size);
+       this.size = size;
        this.table = new Array(size);
     }
 
@@ -32,9 +30,14 @@ public class HashTable {
      * @param value value 값
      * @return 구해진 hashcode % size 값이 size보다 작으면 true를 리턴하고 크면 false를 리턴한다.
      */
-    public boolean put(String key, String value) {
+    public boolean put(K key, V value) {
 
         int hashValue = key.hashCode() % size ;
+
+        if(key.toString().equals("5070")) {
+            System.out.println("put key 5070 hashCode : " + hashValue + " value : "+ value.toString());
+        }
+
 
         if(hashValue >= size) {
             return false;
@@ -44,14 +47,18 @@ public class HashTable {
         return true;
     }
 
-    public String getValue(String key) {
+    public V getValue(K key) {
         int hashValue = key.hashCode() % size;
 
         if(hashValue >= size){
             return null;
         }
 
-        return table.getValue(hashValue, key);
+         if(key.toString().equals("5070")) {
+            System.out.println("put key 5070 hashCode : " + hashValue);
+        }
+
+        return (V) table.getValue(hashValue, key);
     }
 
 
