@@ -39,8 +39,7 @@ public class HashTable {
         if(hashValue >= size) {
             return false;
         }
-        System.out.println( "hashcode value : " + hashValue);
-        table.add(hashValue, value);
+        table.add(hashValue, key, value);
 //        table.add(value);
         return true;
     }
@@ -52,7 +51,7 @@ public class HashTable {
             return null;
         }
 
-        return table.getValue(hashValue);
+        return table.getValue(hashValue, key);
     }
 
 
