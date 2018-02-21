@@ -1,9 +1,14 @@
 package com;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HashTable<K,V> {
+
+    static final Logger logger = LoggerFactory.getLogger(HashTable.class);
 
     private Array table;     // 해쉬 테이블
     private int size = 100;               // 해쉬 테이블 크기
@@ -34,32 +39,41 @@ public class HashTable<K,V> {
 
         int hashValue = key.hashCode() % size ;
 
-        if(key.toString().equals("5070")) {
-            System.out.println("put key 5070 hashCode : " + hashValue + " value : "+ value.toString());
-        }
-
-
         if(hashValue >= size) {
+            logger.warn("wrong hash code value");
             return false;
         }
         table.add(hashValue, key, value);
-//        table.add(value);
         return true;
     }
 
+    /**
+     * key와 매칭되는 노드를 삭제한다.
+     * @param key 삭제할 노드의 key
+     * @return
+     */
+    public boolean Remove(K key) {
+        int hashValue = key.hashCode() % size;
+
+        return  table.removeofIndex(hashValue, key);
+    }
+
+    /**
+     * 해쉬 테이블에서 key 값과 매칭 되는 node를 찾는다.
+     * @param key 찾고 싶은 node의 key
+     * @return 찾았으면 value를 반환 한다. 매칭된 node가 없다면 null를 반환한다.
+     */
     public V getValue(K key) {
         int hashValue = key.hashCode() % size;
 
         if(hashValue >= size){
+            logger.warn("wrong hash code value");
             return null;
-        }
-
-         if(key.toString().equals("5070")) {
-            System.out.println("put key 5070 hashCode : " + hashValue);
         }
 
         return (V) table.getValue(hashValue, key);
     }
+
 
 
 }
